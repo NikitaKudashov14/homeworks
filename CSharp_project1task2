@@ -1,0 +1,56 @@
+using System;
+
+namespace lesson
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string y = Console.ReadLine();
+            int year = int.Parse(y);
+            int m = year % 12; 
+            switch(m)
+            {
+                case 0:
+                    Console.WriteLine(year + "- год Обезьяны");
+                    break;
+                case 1:
+                    Console.WriteLine(year+"- год Петуха");
+                    break;
+                case 2:
+                    Console.WriteLine(year+"- год Собаки");
+                    break;
+                case 3:
+                    Console.WriteLine(year+"- год Свиньи");
+                    break;
+                case 4:
+                    Console.WriteLine(year+"- год Крысы");
+                    break;
+                case 5:
+                    Console.WriteLine(year+"- год Коровы");
+                    break;
+                case 6:
+                    Console.WriteLine(year+"- год Тигра");
+                    break;
+                case 7:
+                    Console.WriteLine(year+"- год Зайца");
+                    break;
+                case 8:
+                    Console.WriteLine(year+"- год Дракона");
+                    break;
+                case 9:
+                    Console.WriteLine(year+"- год Змеи");
+                    break;
+                case 10:
+                    Console.WriteLine(year+"- год Лошади");
+                    break;
+                case 11:
+                    Console.WriteLine(year+"- год Овцы");
+                    break;
+
+            }
+
+      
+        }
+    }
+}
