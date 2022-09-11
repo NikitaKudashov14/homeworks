@@ -1,0 +1,36 @@
+using System;
+using System.Globalization;
+
+namespace lesson
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            NumberFormatInfo numberFormatInfo = new NumberFormatInfo()
+            {
+                NumberDecimalSeparator = ".",
+            };
+
+            string ch = Console.ReadLine();
+            
+            
+            if (ch.Contains("."))
+            {
+                double x = double.Parse(ch);
+                double result = Math.Log(x * x) - Math.Pow(Math.E, x / 3);
+                Console.WriteLine(result);
+            } else
+            {
+                int x = int.Parse(ch);
+                double result = Math.Log(x * x) - Math.Pow(Math.E, x / 3);
+                Console.WriteLine(result);
+            }
+
+
+            
+      
+        }
+    }
+}
+            
