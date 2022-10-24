@@ -9,7 +9,7 @@ namespace lesson
     {
         public string Surname;
         public string Speciality;
-        public int form = 0;
+        public int form = 1;
         public string path1 = $"1.docx";
         public int Form {
             set {
@@ -54,7 +54,7 @@ namespace lesson
         {
             Student Kudashov = new Student();
             Student Marinina = new Student("Marinina", "Information security");
-            Marinina.Form = 1;
+            Marinina.Form = 10;
             Kudashov.say_info();
             Marinina.say_info();
             Console.WriteLine(Marinina.Form);
@@ -66,7 +66,11 @@ namespace lesson
                 File.WriteAllText(path, info);
             } else if (user_input == "Delete Data") {
                 Marinina.delete_data();
+            } else if (user_input == "Add Form") {
+                Marinina.Form = Marinina.Form + 1;
+                Console.WriteLine($"Anna Marinina in {Marinina.Form} course");
             }
+            
             
         
             
