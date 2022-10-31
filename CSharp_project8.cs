@@ -53,10 +53,26 @@ namespace lesson
             return $"{tmp} position = {index + 1}";
         }
 
+        public static string WorkWithString(string[] arr3)
+        {
+            int a = 0;
+            string str = "";
+
+            for (int q = 0; q < arr3.Length; q++)
+            {
+                if (arr3[q].Length > a)
+                {
+                    a = arr3[q].Length;
+                    str = arr3[q];
+                }
+            }
+            return $"Максимальный элемент {str}";
+        }
+
         public static int SumDoubleElements(double[] arr)
         {
             double sum = Convert.ToDouble(arr.Sum());
-            return (int) sum;
+            return (int)sum;
         }
 
         public static int ProizvDoubleElements(double[] arr)
@@ -64,10 +80,10 @@ namespace lesson
             double mult = arr[0];
             for (int i = 0; i < arr.Length; i++)
             {
-                mult = Convert.ToDouble(arr[i]);   
+                mult = Convert.ToDouble(arr[i]);
                 mult *= arr[i];
             }
-            return (int) mult;
+            return (int)mult;
         }
 
         public static string MaxValueDoubleElements(double[] arr)
@@ -84,6 +100,8 @@ namespace lesson
             }
             return $"{tmp} position = {index + 1}";
         }
+
+        
 
         public static double[] DoubleArray(int N)
         {
@@ -151,7 +169,17 @@ namespace lesson
 
             Console.WriteLine();
             Console.WriteLine("Sum {0}| Proizv {1}| MaxValue {2}", MyClass.SumDoubleElements(arr2), MyClass.ProizvDoubleElements(arr2), MyClass.MaxValueDoubleElements(arr2));
+            Console.WriteLine();
 
+            //работа со строчными данными 
+            string[] arr3 = new string[] { "Mike Thuthor", "Alice Spooner", "Jake Shield" };
+            Console.WriteLine(MyClass.WorkWithString(arr3));
+            int k = 0;
+            foreach (string item1 in arr3)
+            {
+                k++;
+                Console.Write($"Элемент {k} - {item1} || ");
+            }
 
 
 
@@ -160,9 +188,3 @@ namespace lesson
         }
     }
 }
-
-
-//
-
-
-
