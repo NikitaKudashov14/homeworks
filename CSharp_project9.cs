@@ -4,7 +4,7 @@ namespace ConsoleApp1
 {
     public class Set
     {
-        public int[] Elements;
+        public int[] Elements = new int[0];
         private int count;
         public int Count
         {
@@ -17,11 +17,13 @@ namespace ConsoleApp1
                 else
                 {
                     count = value;
+                    Array.Resize<int>(ref Elements, count);// или Elements = new int[count]
+
                 }
             }
             get
             {
-                return count;
+                return count;//
             }
         }
 
@@ -79,6 +81,8 @@ namespace ConsoleApp1
         {
             Array.Resize<int>(ref Elements, Elements.Length + 1);
             Elements[Elements.Length + 1] = newElement;
+            // count надо обновить 
+            count = Elements.Length;
         }
 
         public static Set operator ++(Set set1)
@@ -208,6 +212,18 @@ namespace ConsoleApp1
             {
                 Elements[index] = value;
             }
+        }
+    }
+    class lesson
+    {
+        public static void Main(string[] args) {
+            int[] myarr = new int[4] { 12, 16, 22, 29 };
+            Set s1 = new Set();
+            Set s2 = new Set(myarr);
+
+            s1.ShowSet();
+            bool result = s1 > s2;
+            Console.WriteLine(result);
         }
     }
 }
