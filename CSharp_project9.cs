@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Collections;
 
 namespace ConsoleApp1
 {
@@ -17,13 +19,13 @@ namespace ConsoleApp1
                 else
                 {
                     count = value;
-                    Array.Resize<int>(ref Elements, count);// или Elements = new int[count]
+                    Array.Resize<int>(ref Elements, count);
 
                 }
             }
             get
             {
-                return count;//
+                return count;
             }
         }
 
@@ -37,10 +39,10 @@ namespace ConsoleApp1
 
         public Set(int[] array)
         {
-            Array.Copy(array, Elements, count);
+            this.Elements=array;
         }
 
-        public void Fill()
+        public void Fill()  //вводим элементы множества
         {
             for (int i = 0; i < this.Count; i++)
             {
@@ -49,9 +51,9 @@ namespace ConsoleApp1
             }
         }
 
-        public int IndexOf(int value)
+        public int IndexOf(int value)  //сравниваем элемент множества со строкой
         {
-            int tempIndex = 0;
+            int tempIndex = -1;
 
             for (int i = 0; i < this.Count; i++)
             {
@@ -60,15 +62,12 @@ namespace ConsoleApp1
                     tempIndex = i;
                     break;
                 }
-                else
-                {
-                    tempIndex = -1;
-                }
+               
             }
             return tempIndex;
         }
 
-        public void ShowSet()
+        public void ShowSet() //выводим множество
         {
             Console.Write("\nМножество: ");
             foreach (var item in Elements)
@@ -80,8 +79,7 @@ namespace ConsoleApp1
         public void Add(int newElement)
         {
             Array.Resize<int>(ref Elements, Elements.Length + 1);
-            Elements[Elements.Length + 1] = newElement;
-            // count надо обновить 
+            Elements[Elements.Length - 1] = newElement;
             count = Elements.Length;
         }
 
@@ -96,68 +94,38 @@ namespace ConsoleApp1
 
         public static Set operator +(Set set1, Set set2) // Объединение множеств.
         {
-            int[] tempArray = new int[set1.Elements.Length + set2.Elements.Length];
+            Set tempArray = new Set(set1.Elements);
 
-            int i = 0, j = 0, n = 0;
-            while ((i < set1.Elements.Length) && (j < set2.Elements.Length))
-            {
-                if (set1.Elements[i] < set2.Elements[j])
-                {
-                    tempArray[n++] = set1.Elements[i++];
-                }
-                else if (set2.Elements[j] < set1.Elements[i])
-                {
-                    tempArray[n++] = set2.Elements[j++];
-                }
-                else
-                {
-                    tempArray[n++] = set1.Elements[i++];
-                    ++j;
-                }
-            }
-
-            while (i < set1.Elements.Length)
-            {
-                tempArray[n++] = set1.Elements[i++];
-            }
-
-            while (j < set2.Elements.Length)
-            {
-                tempArray[n++] = set2.Elements[j++];
-            }
-
-            return new Set(tempArray);
+            
+           for (int i =0;i<set2.Elements.Length;i++)
+           {
+               tempArray.Add(set2[i]);
+               
+           }
+            
+            return tempArray;
         }
 
-        public static Set operator *(Set set1, Set set2) //Пересечение множеств. ПОД ВОПРОСОМ!!!
+        public static Set operator *(Set set1, Set set2)  //умножение 
         {
-            int[] tempArray = new int[set1.Elements.Length + set2.Elements.Length];
+        
+            Set tempArray = new Set(new int[0]);
+            
 
-            int d = 0;
-
-            for (int i = 0; i < set1.Elements.Length; i++)
-            {
-                int j = 0, k = 0;
-                while (j < set2.Elements.Length && set2.Elements[j] != set1.Elements[i])
-                {
-                    j++;
-                }
-
-                while (k < d && tempArray[k] != set1.Elements[i])
-                {
-                    k++;
-                }
-
-                if (j != set2.Elements.Length && k == d)
-                {
-                    tempArray[d++] = set1.Elements[i];
-                }
-            }
-
-            return new Set(tempArray);
+            
+           for (int i =0;i<set2.Elements.Length;i++)
+           {
+              if (Array.IndexOf(set1.Elements,set2[i])!=-1) 
+              {tempArray.Add(set2[i]); Console.WriteLine("Добавлен");
+              }
+              
+           }
+            
+            return tempArray;
+            
         }
 
-        public static Set operator /(Set set1, Set set2) //Разность множеств.
+        public static Set operator /(Set set1, Set set2)  //деление
         {
             int[] tempArray = new int[set1.Elements.Length + set2.Elements.Length];
 
@@ -178,7 +146,7 @@ namespace ConsoleApp1
             return new Set(tempArray);
         }
 
-        public static bool operator <(Set set1, Set set2)
+        public static bool operator <(Set set1, Set set2)  //сравнение
         {
             if (set1.Elements.Length < set2.Elements.Length)
             {
@@ -217,13 +185,27 @@ namespace ConsoleApp1
     class lesson
     {
         public static void Main(string[] args) {
-            int[] myarr = new int[4] { 12, 16, 22, 29 };
+            int[] myarr = new int[3] { 12, 16, 22 };
             Set s1 = new Set();
-            Set s2 = new Set(myarr);
-
             s1.ShowSet();
-            bool result = s1 > s2;
-            Console.WriteLine(result);
+            Set s2 = new Set(myarr);
+            s2.ShowSet();
+
+            // bool result = s1 > s2;
+            // s1.Add(8);
+            // s1.ShowSet();
+            // Console.WriteLine(result);
+            // int[] plus = s1+s2;
+            Set s = s1+s2;
+            s.ShowSet();
+            // for (int i = 0; i < s.Length; i++) {
+            //     Console.Write(s[i]);
+            // }
+            Set s4=s1*s2;
+            s4.ShowSet();
+            Set s5=s1/s2;
+            s5.ShowSet();
+            
         }
     }
 }
