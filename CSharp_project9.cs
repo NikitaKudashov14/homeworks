@@ -111,15 +111,13 @@ namespace ConsoleApp1
         
             Set tempArray = new Set(new int[0]);
             
-
-            
-           for (int i =0;i<set2.Elements.Length;i++)
-           {
-              if (Array.IndexOf(set1.Elements,set2[i])!=-1) 
-              {tempArray.Add(set2[i]); Console.WriteLine("Добавлен");
-              }
-              
-           }
+            for (int i = 0; i < set1.Elements.Length; i++) {
+                for (int j = 0; j < set2.Elements.Length; j++){
+                    if (set1.Elements[i] == set2.Elements[j]) {
+                        tempArray.Add(set1.Elements[i]);
+                    }
+                }
+            }
             
             return tempArray;
             
@@ -127,23 +125,15 @@ namespace ConsoleApp1
 
         public static Set operator /(Set set1, Set set2)  //деление
         {
-            int[] tempArray = new int[set1.Elements.Length + set2.Elements.Length];
-
-            for (int i = 0; i < set1.Elements.Length; i++)
-            {
-                int j = 0;
-                while (j < set2.Elements.Length && set2.Elements[j] != set1.Elements[i])
-                {
-                    j++;
+            Set tempArray = new Set(new int[0]);
+            
+            for (int i = 0; i < set1.Elements.Length; i++) {
+                    if (set1.Elements[i] != set2.Elements[i]) {
+                        tempArray.Add(set1.Elements[i]);
+                    }
                 }
-
-                if (j == set2.Elements.Length)
-                {
-                    tempArray[i] = set1.Elements[i];
-                }
-            }
-
-            return new Set(tempArray);
+            
+            return tempArray;
         }
 
         public static bool operator <(Set set1, Set set2)  //сравнение
