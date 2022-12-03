@@ -165,8 +165,20 @@ class HelloWorld
             }
             else if (input == 3)
             {
-                Transport Boeing = new Airplane();
-                t1.UpdateElement(Boeing, 0);
+                Console.WriteLine("Выберите позицию, которую нужно заменить и новый элемент(самолет, поезд или машина)");
+                int pos = Convert.ToInt32(Console.ReadLine());
+                string ch= Console.ReadLine();
+                if (ch == "Машина")
+                {
+                    t1.UpdateElement(new Car(), pos);
+                } else if (ch == "Поезд")
+                {
+                    t1.UpdateElement(new Train(), pos);
+                } else if (ch == "Самолет")
+                {
+                    t1.UpdateElement(new Airplane(), pos);
+                }
+
             }
             else if (input == 4)
             {
