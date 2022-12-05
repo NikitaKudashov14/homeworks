@@ -1,196 +1,167 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System;
 using System.Collections;
-abstract class Transport
+using System.Collections.Generic;
+
+
+namespace laba12
 {
-    public abstract string Name { get; set; }
-    public abstract int Speed { get; set; }
-
-}
-
-class Car : Transport
-{
-    int speed;
-    string name;
-    public override string Name
+    abstract class Printed_edition
     {
-        get
+        public string Printed_edition1 { get; set; }
+
+
+        public Printed_edition(string printed_edition1)
         {
-            return name;
-        }
-        set
-        {
-            name = value;
+            Printed_edition1 = printed_edition1;
         }
     }
-
-    public override int Speed
+    class Airplane : Printed_edition, ICloneable
     {
-        get
-        {
-            return speed;
-        }
-        set
-        {
-            speed = value;
-        }
-    }
-}
+        public Airplane(string printed_edition1)
+            : base(printed_edition1) { }
 
-class Train : Transport
-{
-    int speed;
-    string name;
-    public override string Name
-    {
-        get
-        {
-            return name;
-        }
-        set
-        {
-            name = value;
-        }
+        public object Clone() => MemberwiseClone();//поверхностное копирование
     }
 
-    public override int Speed
+    class Train : Printed_edition, ICloneable
     {
-        get
+        public int Speed { get; set; }
+        public Company Name{ get; set; }
+        public Train(string printed_edition1, int speed, Company company)
+            : base(printed_edition1)
         {
-            return speed;
+            Speed = speed;
+            Name = company;
         }
-        set
-        {
-            speed = value;
-        }
+        public object Clone() => new Train(Printed_edition1, Speed, new Company(Name.Name));
+        //Глубокое копирование
     }
-}
-
-class Airplane : Transport
-{
-    int speed;
-    string name;
-    public override string Name
+    class Company
     {
-        get
-        {
-            return name;
-        }
-        set
-        {
-            name = value;
-        }
+        public string Name { get; set; }
+        public Company(string name) => Name = name;
     }
 
-    public override int Speed
+
+    class Car : Printed_edition, IComparable//сравнение при помощи Icomparable
     {
-        get
+        public int Speed { get; set; }
+        public Car(string printed_edition1, int speed)
+            : base(printed_edition1)
         {
-            return speed;
+            Speed = speed;
         }
-        set
+        public int CompareTo(object? o)
         {
-            speed = value;
-        }
-    }
-}
-
-class TransportCompany
-{
-    List<Transport> list = new List<Transport>();
-    public void AddElement(Transport t)
-    {
-        list.Add(t);
-    }
-
-    public void RemoveElement(int t)
-    {
-        list.RemoveAt(t);
-    }
-
-    public void UpdateElement(Transport t, int index)
-    {
-
-        list[index] = t;
-
-    }
-
-    public void Data()
-    {
-        foreach (var item in list)
-        {
-            Console.WriteLine(item);
-        }
-
-        if (list.Count == 0)
-        {
-            Console.WriteLine("Ошибка!");
+            if (o is Car car) return Speed.CompareTo(car.Speed);
+            else throw new ArgumentException("Incorrect paramethr");
         }
     }
-
-}
-class HelloWorld
-{
-    static void Main()
+    class TrainComparer : IComparer<Train>//сортировка компаратором
     {
-        int input = 0;
-        TransportCompany t1 = new TransportCompany();
-        Console.WriteLine("Выберите действие. 1 - добавить элемент. 2 - удалить элемент. 3 - изменить элемент. 4 - вывести информацию. 5 - выход из программы");
-        while (input != 5)
+        public int Compare(Train? train1, Train? train2)
         {
-            input = Convert.ToInt32(Console.ReadLine());
-            if (input == 1)
+            if (train1.Speed < train2.Speed)
+                return -1;
+
+            else if (train1.Speed > train2.Speed)
+                return 1;
+
+            else
+                return 0;
+        }
+    }
+    class Cars : IEnumerable
+    {
+        string[] cars = {  "Mercedes",
+                                "BMW",
+                                "MClaren",
+                                "Ferrari"   };
+        public IEnumerator GetEnumerator() => cars.GetEnumerator();
+    }
+    class Transport_store
+    {
+        static void Main(string[] args)
+        {
+            var airplane1 = new Airplane("Airbus A321");
+
+            var airplane2 = (Airplane)airplane1.Clone();
+
+            airplane2.Printed_edition1 = "Boeing 747-800";
+
+            Console.WriteLine("( ICloneable superfically copy):");
+
+
+            Console.WriteLine(airplane1.Printed_edition1);
+
+            Console.WriteLine("-----------------------");
+
+            var train1 = new Train("Lokomitiv",180,  new Company("RZHD"));
+
+            var train2 = (Train)train1.Clone();
+
+            var train3 = new Train("Sapsan", 480, new Company("RZHD"));
+
+            var train4 = new Train("Maglev", 500000, new Company("China"));
+
+            Train[] trains = { train1, train3, train4 };
+
+            train2.Name.Name = "RZHD";
+
+            Console.WriteLine("DEEP COPY:");
+
+
+            Console.WriteLine(train1.Name.Name);
+
+            Console.WriteLine("-----------------------");
+
+            var car1 = new Car("Toyota Camry", 230);
+
+            var car2 = new Car("LADA Granta", 200);
+
+            var car3 = new Car("BUKHANKA", 500);
+
+            Car[] cars = { car1, car2, car3 };
+
+            Array.Sort(cars);
+
+            Console.WriteLine(" IComparable:");
+
+
+            foreach (Car car in cars)
             {
-                Console.WriteLine("Что именно нужно добавить? Машину, самолет или поезд?");
-                string choice = Console.ReadLine();
-                if (choice == "Машину")
-                {
-                    t1.AddElement(new Car());
-                } else if (choice == "Самолет")
-                {
-                    t1.AddElement(new Airplane());
-                } else if (choice == "Поезд")
-                {
-                    t1.AddElement(new Train());
-                }
-            }
-            else if (input == 2)
-            {
-                Console.WriteLine("Выберите индекс элемента, который нужно удалить");
-                int position = Convert.ToInt32(Console.ReadLine());
-                t1.RemoveElement(position);
-            }
-            else if (input == 3)
-            {
-                Console.WriteLine("Выберите позицию, которую нужно заменить и новый элемент(самолет, поезд или машина)");
-                int pos = Convert.ToInt32(Console.ReadLine());
-                string ch= Console.ReadLine();
-                if (ch == "Машина")
-                {
-                    t1.UpdateElement(new Car(), pos);
-                } else if (ch == "Поезд")
-                {
-                    t1.UpdateElement(new Train(), pos);
-                } else if (ch == "Самолет")
-                {
-                    t1.UpdateElement(new Airplane(), pos);
-                }
+
+                Console.WriteLine($"{car.Printed_edition1} - {car.Speed}");
 
             }
-            else if (input == 4)
+
+            Console.WriteLine("-----------------------");
+
+            Console.WriteLine("IComparer:");
+
+            Array.Sort(trains, new TrainComparer());
+
+            foreach (Train train in trains)
             {
-                t1.Data();
-            }
-            else if (input == 5)
-            {
-                break;
+
+                Console.WriteLine($"{train.Printed_edition1} - {train.Speed}");
+
             }
 
+            Console.WriteLine("-----------------------");
 
+            Cars CARS = new Cars();
+
+            Console.WriteLine(" IEnumerable:");
+
+
+            foreach (var cArs in CARS)
+            {
+
+                Console.WriteLine(cArs);
+
+            }
         }
-
     }
 }
