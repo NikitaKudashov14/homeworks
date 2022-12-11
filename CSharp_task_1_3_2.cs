@@ -73,7 +73,7 @@ namespace ConsoleApp13
         
         public void TrafficFine(Camera camera)
         {
-            File.WriteAllText(path, camera.Message);
+            File.AppendAllText(path, camera.Message);
         }
     }
 
@@ -86,6 +86,7 @@ namespace ConsoleApp13
             Car car2 = new Car("Mercedes Benz C-class", "M777OC", "Girfanov Ranil Raisovich");
             Car car3 = new Car("Toyota Highlander", "K014HO", "Kudashov Nikita Olegovich");
             Camera main_camera = new Camera();
+            GIBDD gibdd = new GIBDD();
             main_camera.Notify += TextMessage;
             car1._speed = 85;
             car2._speed = 100;
@@ -93,7 +94,7 @@ namespace ConsoleApp13
             main_camera.Speed_Check("Населенный пункт", car1);
             main_camera.Speed_Check("Автомагистраль", car2);
             main_camera.Speed_Check("Автомагистраль", car3);
-            GIBDD gibdd = new GIBDD();
+            gibdd.TrafficFine(main_camera);
             gibdd.TrafficFine(main_camera);
 
         }
