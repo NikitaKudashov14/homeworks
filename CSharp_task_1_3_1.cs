@@ -1,39 +1,40 @@
 using System;
-using System.Globalization;
+using System.IO.Pipes;
 
-namespace ConsoleApp13
+namespace laba13
 {
     class Program
     {
-        public delegate double Operation(double x);
-
-        public static double MethodPolDel(double e, double a, double b, Operation operation)
+        public delegate double Funcc(double x);
+        public static double Method(double e, double a, double b, Funcc f)
         {
             while (Math.Abs(b - a) > e)
             {
-                double xc = (a + b) / 2;
-                if (operation(a) * operation(xc) < 0)
-                    b = xc;
-                else a = xc;
+                double x = (a + b) / 2;
+                if (f(a) * f(x) < 0)
+                {
+                    b = x;
+                }
+                else a = x;
             }
             return a;
         }
-
         static void Main(string[] args)
         {
-
-            NumberFormatInfo numberFormatInfo = new NumberFormatInfo() {
-                NumberDecimalSeparator = ".",
-            }; 
-
-            Operation operation = (x) => 2 * x + 3;
-            Console.WriteLine("Введите по очереди: точность вычисления (e), первая точка отрезка (a), вторая точка отрезка (b)");
-           
-            double e = Convert.ToDouble(Console.ReadLine(), numberFormatInfo);
-            double a = Convert.ToDouble(Console.ReadLine(), numberFormatInfo);
-            double b = Convert.ToDouble(Console.ReadLine(), numberFormatInfo);
-            double result = MethodPolDel(e, a, b, operation);
+            Funcc funcc = x =>x*x-7;
+            Console.Write("Введите значение погрешности(e): ");
+            double e = double.Parse(Console.ReadLine());
+            Console.Write("Введите начало отрезка(a): ");
+            double a = double.Parse(Console.ReadLine());
+            Console.Write("Введите конец отрезка(b): ");
+            double b = double.Parse(Console.ReadLine());
+            double result = Method(e, a, b, funcc);
+            double result1 = Math.Abs(Method(e,a,b,funcc));
             Console.WriteLine(result);
+            if(result!=result1)
+            {
+            Console.WriteLine(result1);
+            }
         }
     }
 }
