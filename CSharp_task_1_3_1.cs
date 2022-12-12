@@ -21,7 +21,7 @@ namespace laba13
         }
         static void Main(string[] args)
         {
-            Funcc funcc = x =>x*x-7;
+            Funcc funcc = x =>x*x - 6;
             Console.Write("Введите значение погрешности(e): ");
             double e = double.Parse(Console.ReadLine());
             Console.Write("Введите начало отрезка(a): ");
@@ -29,12 +29,20 @@ namespace laba13
             Console.Write("Введите конец отрезка(b): ");
             double b = double.Parse(Console.ReadLine());
             double result = Method(e, a, b, funcc);
-            double result1 = Math.Abs(Method(e,a,b,funcc));
             Console.WriteLine(result);
-            if(result!=result1)
-            {
-            Console.WriteLine(result1);
-            }
+            
+            Console.Write("Введите значение погрешности(e): ");
+            double e2 = double.Parse(Console.ReadLine());
+            Console.Write("Введите начало отрезка(a): ");
+            double a2 = double.Parse(Console.ReadLine());
+            Console.Write("Введите конец отрезка(b): ");
+            double b2 = double.Parse(Console.ReadLine());
+            double result2 = Method(e2, a2, b2, funcc);
+            Console.WriteLine(result2);
+            
+            // result = Method(e, a, b, funcc);
+             
+           
         }
     }
 }
