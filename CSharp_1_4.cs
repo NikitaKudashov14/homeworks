@@ -27,11 +27,11 @@ namespace ConsoleApp13
         {
             List<Athlete> users = new List<Athlete>
             {
-                new Athlete("Ronaldo", "Football", 1, "Gold"),
-                new Athlete("Messi", "Football", 1, "Gold"),
                 new Athlete("Radulov", "Hockey", 2, "Silver"),
                 new Athlete("Shipachyov", "Hockey", 3, "Bronze"),
                 new Athlete("Panarin", "Hockey", 4, "No"),
+                new Athlete("Ronaldo", "Football", 1, "Gold"),
+                new Athlete("Messi", "Football", 1, "Gold"),
                 new Athlete("Kaprizov", "Hockey", 3,"Bronze"),
                 new Athlete("Medvedev", "Tennis", 1, "Gold"),
                 new Athlete("McDavid", "Hockey", 1, "Gold"),
@@ -66,7 +66,7 @@ namespace ConsoleApp13
                          Medal = user.Medal
 
                      };
-           foreach (var item in pr)
+            foreach (var item in pr)
             {
                 Console.WriteLine($"Фамилия: {item.Surname} Медаль: {item.Medal}");
             }
@@ -77,7 +77,7 @@ namespace ConsoleApp13
                        orderby user.Surname
                        select user;
 
-            foreach(var item in sort)
+            foreach (var item in sort)
             {
                 Console.WriteLine($"Фамилия: {item.Surname}");
             }
@@ -85,8 +85,8 @@ namespace ConsoleApp13
             Console.WriteLine("----------------------------------");
             Console.WriteLine("Сортировка по месту");
             var sort2 = from user in users
-                       orderby user.Position ascending
-                       select user;
+                        orderby user.Position ascending
+                        select user;
 
             foreach (var item in sort2)
             {
@@ -99,10 +99,10 @@ namespace ConsoleApp13
             var group = from user in users
                         group user by user.Sport;
 
-            foreach(var sport in group)
+            foreach (var sport in group)
             {
                 Console.WriteLine(sport.Key);
-                foreach(var player in sport)
+                foreach (var player in sport)
                 {
                     Console.WriteLine(player.Surname);
                 }
@@ -112,22 +112,83 @@ namespace ConsoleApp13
             Console.WriteLine("----------------------------------");
             Console.WriteLine("Агрегатные функции");
 
-            var user_for_gl = from user in users
-                              where user.Surname.StartsWith("A") || user.Surname.StartsWith("E") || user.Surname.StartsWith("I") || user.Surname.StartsWith("O") || user.Surname.StartsWith("U") || user.Surname.StartsWith("Y")
-                              select user;
+            var user_for_gl = users.Count(user => user.Surname.StartsWith("A") || user.Surname.StartsWith("E") || user.Surname.StartsWith("I") || user.Surname.StartsWith("O") || user.Surname.StartsWith("U") || user.Surname.StartsWith("Y"));
 
-            foreach(var item in user_for_gl)
+            Console.WriteLine($"Кол-во людей, у которых фамилия начинается с гласной: {user_for_gl}");
+
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Skip");
+            int position = 0;
+
+            for (int i = 0; i < users.Count; i++)
             {
-                Console.WriteLine($"Фамилия: {item.Surname}");
+                if (users[i].Position == 1)
+                {
+                    position = i;
+                    break;
+                }
             }
 
+            var result = users.Skip(position);
+            foreach (var item in result)
+            {
+                Console.WriteLine($"Фамилия: {item.Surname}");
 
+            }
 
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("SkipWhile");
+            var result2 = users.SkipWhile(user => user.Position != 1);
+            foreach (var item in result)
+            {
+                Console.WriteLine($"Фамилия: {item.Surname}");
 
+            }
+
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("TakeWhile");
+
+            var result3 = users.TakeWhile(user => user.Position == 1);
+            foreach (var item in result)
+            {
+                Console.WriteLine($"Фамилия: {item.Surname} Место: {item.Position}");
+
+            }
+
+            List<Athlete> users2 = new List<Athlete>
+            {
+                new Athlete("Kudashov", "Hockey", 2, "Silver"),
+                new Athlete("Rotenberg", "Football", 5020, "No"),
+                new Athlete("Girfanov", "Hockey", 1, "Gold")
+            };
+
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Объединение списков");
+            var list = users.Union(users2);
+            foreach(var item in list)
+            {
+                Console.WriteLine($"{item.Surname} || {item.Sport}");
+            }
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("Any");
+            bool result4 = users.Any(user => user.Position == 1);
+            Console.WriteLine(result4);
+            Console.WriteLine("----------------------------------");
+            Console.WriteLine("All");
+            bool result5 = users.All(user => user.Position == 1);
+            Console.WriteLine(result5);
         }
 
+        List<Athlete> users2 = new List<Athlete>
+        {
+            new Athlete("Kudashov", "Hockey", 2, "Silver"),
+            new Athlete("Rotenberg", "Football", 5020, "No"),
+            new Athlete("Girfanov", "Hockey", 1, "Gold")
+        };
 
-
+           
+        
+    
 
     }
 }
